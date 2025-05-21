@@ -37,3 +37,6 @@ npm install
 npm run dev
 php artisan serve
 
+```For test
+php artisan test --filter=TaskAssignmentTest
+
