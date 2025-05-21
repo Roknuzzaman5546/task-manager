@@ -5,6 +5,7 @@ use App\Http\Controllers\Client\Auth\ClientLoginController;
 use App\Http\Controllers\Client\Auth\ClientRegisterController;
 use App\Http\Controllers\Client\ClientDashboardController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\RedirectIfClient;
 use Illuminate\Support\Facades\Route;
 
 
@@ -14,9 +15,9 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+})->middleware(['auth', 'verified', RedirectIfClient::class])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', RedirectIfClient::class])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -42,7 +43,7 @@ Route::middleware('auth:client')->group(function () {
     })->name('client.logout');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', RedirectIfClient::class])->group(function () {
     Route::resource('tasks', TaskController::class);
 });
 
