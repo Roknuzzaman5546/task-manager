@@ -22,10 +22,10 @@
                         <p><span class="font-medium">Due:</span> {{ $task->due_date }}</p>
                         <p><span class="font-medium">Priority:</span>
                             <span class="px-2 py-1 rounded-full 
-                                    {{ 
-                                        $task->priority === 'high' ? 'bg-red-200 text-red-800' :
+                                                    {{ 
+                                                        $task->priority === 'high' ? 'bg-red-200 text-red-800' :
                     ($task->priority === 'medium' ? 'bg-yellow-200 text-yellow-800' : 'bg-green-200 text-green-800')
-                                    }}">
+                                                    }}">
                                 {{ ucfirst($task->priority) }}
                             </span>
                         </p>
@@ -48,19 +48,25 @@
                     </div>
                 </div>
             @endforeach
+        @else
             <div>
                 <h2 class=" text-xl font-bold text-center text-red-500">No task for you</h2>
             </div>
         @endif
-
         {{-- Logout --}}
-        <form method="POST" action="{{ route('client.logout') }}" class="mt-52 text-center">
-            @csrf
-            <button type="submit"
-                class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition">
-                Logout
-            </button>
-        </form>
+        <div class="flex justify-between items-center mt-10">
+            <a href="{{ url()->previous() }}"
+                class="inline-block bg-gray-200 text-gray-800 px-5 py-2 rounded-md hover:bg-gray-300 transition duration-300">
+                ← Back
+            </a>
+            <form method="POST" action="{{ route('client.logout') }}" class="text-center">
+                @csrf
+                <button type="submit"
+                    class="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-6 rounded-lg transition">
+                    Logout
+                </button>
+            </form>
+        </div>
     </div>
 
 </body>
